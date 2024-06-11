@@ -1,20 +1,25 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { GreetingsComponent } from './components/greetings/greetings.component';
-import { CounterComponent } from './components/counter/counter.component';
-
+import { HeaderComponent } from './core/components/header/header.component';
+import { MenuComponent } from './core/components/menu/menu.component';
+import { routes } from './app.routes';
+import { MenuOptions } from './core/types/menu.options.type';
 @Component({
   selector: 'cas-root',
   standalone: true,
-  imports: [RouterOutlet, GreetingsComponent, CounterComponent],
+  imports: [RouterOutlet, HeaderComponent, MenuComponent],
   template: `
-    <h1>Welcome to {{ title }}!</h1>
-    <cas-greetings></cas-greetings>
-    <cas-counter></cas-counter>
-    <p>Router outlet:</p>
-    <router-outlet />
+    <cas-header [appTitle]="title">
+      <cas-menu [options]="options" />
+    </cas-header>
+    <main>
+      <router-outlet />
+    </main>
   `,
 })
 export class AppComponent {
-  title = 'Demo1';
+  title = 'Angular 18 Demo1';
+  options: MenuOptions[] = routes
+    .filter((r) => r.title)
+    .map((r) => ({ title: r.title as string, path: r.path as string }));
 }
