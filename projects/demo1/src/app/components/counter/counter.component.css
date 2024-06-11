@@ -1,0 +1,11 @@
+span {
+  padding: 1rem;
+}
+
+.big {
+  font-size: 20px;
+}
+
+.negative {
+  color: red;
+}

@@ -1,0 +1,15 @@
+<h2>Counter</h2>
+<button (click)="change(-1)" [disabled]="count === -5">➖</button>
+<span [class.negative]="count < 0" class="big">{{ count }}</span>
+<button (click)="change(+1)" [disabled]="count === 5">➕</button>
+<p>
+  @if (count === 5) {
+    Has llegado al límite superior del contador
+  } @else if (count === -5) {
+    Has llegado al límite superior del contador
+  } @else {
+    Puedes seguir pulsando el contador
+  }
+</p>
+
+<!-- [ngClass]="{ negative: count < 0 }"-->
