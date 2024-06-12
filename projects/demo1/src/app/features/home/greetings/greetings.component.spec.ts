@@ -20,7 +20,7 @@ describe('GreetingsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xdescribe('White box test', () => {
+  describe('White box test', () => {
     it('should handle click', () => {
       component.user = 'Pepe';
       expect(component.user).toBe('Pepe');

@@ -15,7 +15,7 @@ import { CounterComponent } from './counter/counter.component';
     </div>
 
     <cas-greetings>
-      <button (click)="handleClick($event)">click</button>
+      <button class="sample" (click)="handleClick($event)">click</button>
       <span class="title">Estamos saludando</span>
       <span class="course">Curso de Angular</span>
       <cas-counter (countChange)="handleChange($event, 0)"></cas-counter>
