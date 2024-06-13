@@ -4,3 +4,8 @@ export type Task = {
   owner: string;
   isDone: boolean;
 };
+
+export type CreateTaskDTO = {
+  title: string;
+  owner: string;
+};
