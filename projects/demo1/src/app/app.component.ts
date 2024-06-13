@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './core/components/header/header.component';
-import { MenuComponent } from './core/components/menu/menu.component';
+import { HeaderComponent } from 'cas.lib';
+import { MenuComponent } from 'cas.lib';
 import { routes } from './app.routes';
-import { MenuOptions } from './core/types/menu.options.type';
+import { MenuOptions } from 'cas.lib';
 @Component({
   selector: 'cas-root',
   standalone: true,
