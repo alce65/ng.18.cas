@@ -136,7 +136,8 @@
             "polyfills": [
               "zone.js",
               "zone.js/testing"
-            ]
+            ],
+            "karmaConfig": "projects/cas.lib/karma.conf.js"
           }
         },
         "lint": {
