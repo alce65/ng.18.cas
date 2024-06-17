@@ -58,12 +58,12 @@ export class FullListComponent implements OnInit {
   @ViewChild('add', { static: true }) details!: ElementRef<HTMLDetailsElement>;
 
   constructor() {
-    console.log(this.details);
+    console.log('constructor details', this.details);
   }
 
   ngOnInit(): void {
     this.handleLoad();
-    console.log(this.details);
+    console.log('onInit details',this.details);
   }
 
   handleLoad() {
