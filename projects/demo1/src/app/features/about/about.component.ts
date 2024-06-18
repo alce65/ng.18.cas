@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CasLibComponent } from 'cas.lib';
+import { SampleService } from '../../core/services/sample.service';
 
 @Component({
   selector: 'cas-about',
@@ -12,4 +13,8 @@ import { CasLibComponent } from 'cas.lib';
   `,
   styles: ``,
 })
-export default class AboutComponent {}
+export default class AboutComponent {
+  constructor(private sampleSrv: SampleService) {
+    console.log(this.sampleSrv.getGreet() )
+  }
+}
