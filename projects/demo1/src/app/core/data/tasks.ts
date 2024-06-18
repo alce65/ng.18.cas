@@ -1,5 +1,6 @@
 import { Observable, of } from 'rxjs';
 import { Task } from '../models/task';
+import { Injectable } from '@angular/core';
 
 const TASKS: Task[] = [
   {
@@ -22,8 +23,15 @@ const TASKS: Task[] = [
   },
 ];
 
-export const getTasks = (): Task[] => TASKS;
+@Injectable({
+  providedIn: 'root'
+})
+export class MockDataService {
 
-export const getTasksAsync = async (): Promise<Task[]> => TASKS;
+  getTasks (): Task[] {return TASKS;}
 
-export const getTasksRx = (): Observable<Task[]> => of(TASKS);
+  async getTasksAsync(): Promise<Task[]> {return TASKS;}
+
+  getTasksRx(): Observable<Task[]> {return of(TASKS);}
+
+}
