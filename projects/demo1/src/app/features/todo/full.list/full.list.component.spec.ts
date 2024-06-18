@@ -1,21 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { FullListComponent } from './full.list.component';
-import { getTasksAsync } from '../../../core/data/tasks';
 import { CreateTaskDTO } from '../../../core/models/task';
+import { MockDataService } from '../../../core/data/tasks';
 
 describe('FullListComponent', () => {
   let component: FullListComponent;
   let fixture: ComponentFixture<FullListComponent>;
+  let service: MockDataService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FullListComponent]
+      imports: [FullListComponent],
+      providers: [MockDataService]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(FullListComponent);
     component = fixture.componentInstance;
+    service = TestBed.inject(MockDataService);
     fixture.detectChanges();
   });
 
@@ -26,7 +28,7 @@ describe('FullListComponent', () => {
 
   // White Box Testing
   it('should run handleLoad and render the tasks', async () => {
-    const tasks = await getTasksAsync();
+    const tasks =  await service.getTasksAsync();
     expect(component.tasks).toEqual(tasks);
   });
 

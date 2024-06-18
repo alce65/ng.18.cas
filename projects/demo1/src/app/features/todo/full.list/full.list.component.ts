@@ -1,7 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { CreateTaskDTO, Task } from '../../../core/models/task';
-import { getTasksAsync } from '../../../core/data/tasks';
+
 import { FormsModule } from '@angular/forms';
+import { MockDataService } from '../../../core/data/tasks';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'cas-full-list',
@@ -56,8 +58,9 @@ export class FullListComponent implements OnInit {
   tasks: Task[] = [];
   newTask: CreateTaskDTO = { title: '', owner: '' };
   @ViewChild('add', { static: true }) details!: ElementRef<HTMLDetailsElement>;
+  private storageSrv = inject(StorageService);
 
-  constructor() {
+  constructor(private mock: MockDataService) {
     console.log('constructor details', this.details);
   }
 
@@ -67,7 +70,9 @@ export class FullListComponent implements OnInit {
   }
 
   handleLoad() {
-    getTasksAsync().then((tasks) => {
+    this.tasks = this.storageSrv.get()
+    if (this.tasks.length) return;
+    this.mock.getTasksAsync().then((tasks) => {
       this.tasks = tasks;
     });
   }
@@ -83,12 +88,14 @@ export class FullListComponent implements OnInit {
     // No es recomendable mutar el array
     // this.tasks.push(fullTask);
     this.tasks = [...this.tasks, fullTask];
+    this.storageSrv.set(this.tasks);
     this.newTask = { title: '', owner: '' };
     this.details.nativeElement.open = false;
   }
 
   handleDelete(id: string) {
     this.tasks = this.tasks.filter((task) => task.id !== id);
+    this.storageSrv.set(this.tasks);
   }
 
   handleChange(id: string) {
@@ -98,5 +105,6 @@ export class FullListComponent implements OnInit {
       }
       return task;
     });
+    this.storageSrv.set(this.tasks);
   }
 }

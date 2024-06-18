@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { StorageService } from './features/todo/services/storage.service';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -10,7 +11,13 @@ export const routes: Routes = [
   {
     title: 'Tareas',
     path: 'todo',
+    providers: [StorageService],
     loadComponent: () => import('./features/todo/todo.component'),
+  },
+  {
+    title: 'Artículos',
+    path: 'articles',
+    loadComponent: () => import('./features/articles/articles.component') ,
   },
   {
     title: 'Nosotros',
