@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
 import { RepoRx } from './articles.repo';
 import { Article, CreateArticleDTO, UpdateArticleDTO } from '../models/article';

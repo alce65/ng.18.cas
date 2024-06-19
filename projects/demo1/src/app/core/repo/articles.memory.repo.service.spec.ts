@@ -13,4 +13,10 @@ describe('ArticlesMemoryRepoService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should get articles', () => {
+    service.get().subscribe((articles) => {
+      expect(articles.length).toBe(3);
+    });
+  });
 });
