@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListComponent } from './list.component';
 import { Article } from '../../../core/models/article';
-import { ArticlesMemoryRepoService } from '../../../core/repo/articles.memory.repo.service';
 import { of } from 'rxjs';
+import { ArticlesApiRepoService } from '../../../core/repo/articles.api.repo.service';
 
 describe('ListComponent', () => {
   let component: ListComponent;
   let fixture: ComponentFixture<ListComponent>;
-  let service: ArticlesMemoryRepoService;
-  const mockSrv: ArticlesMemoryRepoService =
-    jasmine.createSpyObj('ArticlesMemoryRepoService',
+  let service: ArticlesApiRepoService;
+  const mockSrv: ArticlesApiRepoService =
+    jasmine.createSpyObj('ArticlesApiRepoService',
       {
         get: of([
           { id: '1', title: 'Article 1', author: 'Content 1' , isPublished: true},
@@ -27,7 +27,7 @@ describe('ListComponent', () => {
       imports: [ListComponent],
       providers: [
         {
-          provide: ArticlesMemoryRepoService,
+          provide: ArticlesApiRepoService,
           useValue: mockSrv
         }]
     })
@@ -35,7 +35,7 @@ describe('ListComponent', () => {
 
     fixture = TestBed.createComponent(ListComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(ArticlesMemoryRepoService);
+    service = TestBed.inject(ArticlesApiRepoService);
     fixture.detectChanges();
   });
 

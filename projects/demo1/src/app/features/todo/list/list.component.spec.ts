@@ -4,6 +4,12 @@ import { ListComponent } from './list.component';
 import { Task } from '../../../core/models/task';
 import { StorageService } from '../services/storage.service';
 
+const mockStorageService = {
+  get: () => [],
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  set: () => {}
+}
+
 describe('ListComponent', () => {
   let component: ListComponent;
   let fixture: ComponentFixture<ListComponent>;
@@ -14,11 +20,7 @@ describe('ListComponent', () => {
       providers: [
         {
           provide: StorageService,
-          useValue: {
-            get: () => [],
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            set: () => {}
-          }
+          useValue: mockStorageService
         }
       ]
     })
