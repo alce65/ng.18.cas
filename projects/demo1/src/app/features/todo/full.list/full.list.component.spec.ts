@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FullListComponent } from './full.list.component';
 import { CreateTaskDTO } from '../../../core/models/task';
 import { MockDataService } from '../../../core/data/tasks';
+import { StorageService } from '../services/storage.service';
 
 describe('FullListComponent', () => {
   let component: FullListComponent;
@@ -11,7 +12,16 @@ describe('FullListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FullListComponent],
-      providers: [MockDataService]
+      providers: [MockDataService,
+        {
+          provide: StorageService,
+          useValue: {
+            get: () => [],
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            set: () => {}
+          }
+        }
+      ]
     })
     .compileComponents();
 

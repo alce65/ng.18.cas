@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListComponent } from './list.component';
 import { Task } from '../../../core/models/task';
+import { StorageService } from '../services/storage.service';
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -9,7 +10,17 @@ describe('ListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ListComponent]
+      imports: [ListComponent],
+      providers: [
+        {
+          provide: StorageService,
+          useValue: {
+            get: () => [],
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            set: () => {}
+          }
+        }
+      ]
     })
     .compileComponents();
 
