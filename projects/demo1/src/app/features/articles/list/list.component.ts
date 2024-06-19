@@ -2,8 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AddComponent } from '../add/add.component';
 import { CardComponent } from '../card/card.component';
 import { CreateArticleDTO, Article } from '../../../core/models/article';
-import { ArticlesMemoryRepoService } from '../../../core/repo/articles.memory.repo.service';
-
+import { ArticlesApiRepoService } from '../../../core/repo/articles.api.repo.service';
 
 @Component({
   selector: 'cas-list',
@@ -12,6 +11,9 @@ import { ArticlesMemoryRepoService } from '../../../core/repo/articles.memory.re
   template: `
     <cas-add (addEvent)="handleAdd($event)" />
     <h3>Lista de artículos</h3>
+    @if (hasError) {
+      <p>Error al cargar los artículos</p>
+    }
     <ul>
       @for (item of articles; track item.id) {
         <li>
@@ -37,7 +39,10 @@ import { ArticlesMemoryRepoService } from '../../../core/repo/articles.memory.re
 })
 export class ListComponent implements OnInit {
   articles: Article[] = [];
-  private repoSrv = inject(ArticlesMemoryRepoService)
+  private repoSrv = inject(ArticlesApiRepoService)
+  // version previa con repo inMemory
+  // private repoSrv = inject(ArticlesMemoryRepoService)
+  hasError = false;
 
   ngOnInit(): void {
     this.handleLoad();

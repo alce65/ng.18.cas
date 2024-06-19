@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardComponent } from './card.component';
-import { Task } from '../../../core/models/task';
+import { Article } from '../../../core/models/article';
 import { By } from '@angular/platform-browser';
 
 describe('CardComponent', () => {
@@ -17,10 +17,10 @@ describe('CardComponent', () => {
     component = fixture.componentInstance;
     component.item = {
       id: '1',
-      title: 'New task',
-      owner: 'New owner',
-      isDone: false,
-    } as Task;
+      title: 'New article',
+      author: 'New author',
+      isPublished: false,
+    } as Article;
     fixture.detectChanges();
   });
 
