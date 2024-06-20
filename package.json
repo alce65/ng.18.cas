@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development --project cas.lib",
     "test:demo1": "ng test --code-coverage --project demo1",
+    "test:demo2": "ng test --code-coverage --project demo2",
     "test:lib": "ng test --code-coverage --project cas.lib",
     "test:prod": "ng test --code-coverage --no-watch",
     "lint": "ng lint"
