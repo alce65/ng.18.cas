@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { FullListComponent } from './full.list/full.list.component';
 import { ListComponent } from './list/list.component';

@@ -9,7 +9,7 @@ import { AsyncPipe } from '@angular/common';
   template: `
     <h2>Inicio</h2>
 
-    @if((stateSrv.state | async)?.articles; as articles) {
+    @if((stateSrv.getState() | async)?.articles; as articles) {
       <p>Artículos disponibles {{articles?.length }}</p>
     }
   `,

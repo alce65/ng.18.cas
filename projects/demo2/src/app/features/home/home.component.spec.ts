@@ -1,15 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import HomeComponent from './home.component';
-import { By } from '@angular/platform-browser';
+import { State, StateService } from '../../core/services/state.service';
+import { of } from 'rxjs';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
+  const mockState: State = {articles: []}
+  const mockStateService = jasmine.createSpyObj('StateService', {
+    getState: of(mockState),
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HomeComponent],
+      providers: [
+        {
+          provide: StateService,
+          useValue: mockStateService,
+        }
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);
@@ -21,34 +31,4 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should handle click', () => {
-    spyOn(console, 'log');
-    // Esto sería lo mismo que hacer un click en el botón
-    // component.handleClick({} as Event);
-    const dButton = fixture.debugElement.query(By.css('button.sample'));
-    // ALternativa para lanzar eventos
-    // dButton.triggerEventHandler('click', {});
-    const buttonElement = dButton.nativeElement as HTMLButtonElement;
-    // Otra forma de lanzar eventos
-    // buttonElement.dispatchEvent(new Event('click'));
-    buttonElement.click();
-    fixture.detectChanges();
-    expect(console.log).toHaveBeenCalled();
-  });
-
-  // White box text
-  xit('should handle change', () => {
-    component.handleChange(1, 0);
-    expect(component.count).toBe(1);
-    component.handleChange(2, 1);
-    expect(component.count).toBe(3);
-  });
-
-  it('should handle change', () => {
-    component.clicks = 0;
-    fixture.debugElement
-      .query(By.css('cas-counter'))
-      .triggerEventHandler('countChange', 1);
-    expect(component.clicks).toBe(1);
-  });
 });

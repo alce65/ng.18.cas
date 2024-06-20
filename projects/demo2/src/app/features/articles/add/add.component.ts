@@ -1,11 +1,11 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  Output,
+  inject,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { StateService } from '../../../core/services/state.service';
 import { CreateArticleDTO } from '../../../core/models/article';
 
 @Component({
@@ -31,11 +31,11 @@ import { CreateArticleDTO } from '../../../core/models/article';
 export class AddComponent {
   newArticle: CreateArticleDTO = { title: '', author: '' };
   @ViewChild('add', { static: true }) details!: ElementRef<HTMLDetailsElement>;
-  @Output() addEvent = new EventEmitter<CreateArticleDTO>();
+  private stateSrv = inject(StateService)
 
   handleAdd() {
     if (!this.newArticle.title || !this.newArticle.author) return;
-    this.addEvent.next(this.newArticle);
+    this.stateSrv.addArticles(this.newArticle)
     this.newArticle = { title: '', author: '' };
     this.details.nativeElement.open = false;
   }

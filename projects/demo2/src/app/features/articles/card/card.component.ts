@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Article } from '../../../core/models/article';
+import { StateService } from '../../../core/services/state.service';
 
 @Component({
   selector: 'cas-card',
@@ -20,17 +21,17 @@ import { Article } from '../../../core/models/article';
 })
 export class CardComponent {
   @Input() item!: Article;
-  @Output() deleteEvent = new EventEmitter<string>();
-  @Output() updateEvent = new EventEmitter<Article>();
+  private stateSrv = inject(StateService)
+
 
   handleChange() {
-    this.updateEvent.next({
+    this.stateSrv.updateArticles({
       ...this.item,
       isPublished: !this.item.isPublished,
     });
   }
 
   handleDelete() {
-    this.deleteEvent.next(this.item.id);
+    this.stateSrv.deleteArticles(this.item.id)
   }
 }
