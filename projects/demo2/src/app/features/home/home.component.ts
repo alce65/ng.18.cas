@@ -1,28 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { StateService } from '../../core/services/state.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cas-home',
   standalone: true,
-  imports: [],
+  imports: [AsyncPipe],
   template: `
     <h2>Inicio</h2>
 
+    @if((stateSrv.state | async)?.articles; as articles) {
+      <p>Artículos disponibles {{articles?.length }}</p>
+    }
   `,
   styles: ``,
 })
 export default class HomeComponent {
-  count = 0;
-  countValues = [0, 0];
-  clicks = 0;
-  saludo = 'estamos saludando';
 
-  handleClick(event: Event) {
-    console.log(event);
-  }
+  protected stateSrv = inject(StateService);
 
-  handleChange(value: number, position: number) {
-    this.clicks++;
-    this.countValues[position] = value;
-    this.count = this.countValues.reduce((acc, value) => acc + value, 0);
-  }
 }

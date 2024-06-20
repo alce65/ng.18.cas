@@ -1,8 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, } from '@angular/core';
 import { AddComponent } from '../add/add.component';
 import { CardComponent } from '../card/card.component';
-import { CreateArticleDTO, Article } from '../../../core/models/article';
+
 import { ArticlesApiRepoService } from '../../../core/repo/articles.api.repo.service';
+import { StateService } from '../../../core/services/state.service';
+import { Article, CreateArticleDTO } from '../../../core/models/article';
 
 @Component({
   selector: 'cas-list',
@@ -37,22 +39,22 @@ import { ArticlesApiRepoService } from '../../../core/repo/articles.api.repo.ser
     }
   `,
 })
-export class ListComponent implements OnInit {
+export class ListComponent {
   articles: Article[] = [];
   private repoSrv = inject(ArticlesApiRepoService)
+  private stateSrv = inject(StateService)
   // version previa con repo inMemory
   // private repoSrv = inject(ArticlesMemoryRepoService)
   hasError = false;
 
-  ngOnInit(): void {
-    this.handleLoad();
+  constructor() {
+    this.stateSrv.state.subscribe((state) => {
+      this.articles = state.articles;
+    });
+
   }
 
-  handleLoad() {
-    this.repoSrv.get().subscribe(
-      (data) => this.articles = data
-    )
-  }
+
 
   handleAdd(newArticle: CreateArticleDTO) {
     this.repoSrv.create(newArticle).subscribe(
