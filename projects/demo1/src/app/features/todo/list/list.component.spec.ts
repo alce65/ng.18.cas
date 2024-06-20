@@ -5,11 +5,10 @@ import { Task } from '../../../core/models/task';
 import { StorageService } from '../services/storage.service';
 
 const mockStorageService = {
-  get: () => [],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  set: () => {}
-}
-
+    get: () => [] as Task[],
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    set: () => {}
+  }
 describe('ListComponent', () => {
   let component: ListComponent;
   let fixture: ComponentFixture<ListComponent>;
@@ -28,17 +27,20 @@ describe('ListComponent', () => {
 
     fixture = TestBed.createComponent(ListComponent);
     component = fixture.componentInstance;
+    spyOn(component, 'handleLoad').and.callThrough();
     fixture.detectChanges();
   });
 
-  it('should create', async () => {
-    // TEMP spyOn(component, 'ngOnInit').and.callThrough();
-    // spyOn(component, 'handleLoad').and.callThrough();
+  it('should create and run handleLoad and load tasks',  () => {
     expect(component).toBeTruthy();
-    // TEMP await fixture.whenStable();
-    // fixture.detectChanges();
-    // expect(component.ngOnInit).toHaveBeenCalled();
-    // expect(component.handleLoad).toHaveBeenCalled();
+    expect(component.handleLoad).toHaveBeenCalled();
+  });
+
+  it('should run handleLoad from storageService and render the tasks', async () => {
+    const mockTasks = [ { id: '1', title: 'Task 1', owner: 'Owner 1', isDone: false } ];
+    mockStorageService.get = () => mockTasks
+    component.handleLoad();
+    expect(component.tasks).toEqual(mockTasks);
   });
 
   it('should run handleAdd and add a new task', () => {
@@ -48,6 +50,10 @@ describe('ListComponent', () => {
   });
 
   it('should run handleChange and change the task status', () => {
+
+
+    component.tasks = [{ id: '1', title: 'Task 1', owner: 'Owner 1', isDone: false },
+      { id: '2', title: 'Task 2', owner: 'Owner 2', isDone: false }];
     const updatedTask: Task = {
       id: component.tasks[0].id,
       title: 'New task', owner: 'New owner',

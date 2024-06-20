@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListComponent } from './list.component';
 import { Article } from '../../../core/models/article';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ArticlesApiRepoService } from '../../../core/repo/articles.api.repo.service';
 
 describe('ListComponent', () => {
@@ -55,7 +55,8 @@ describe('ListComponent', () => {
     expect(component.articles[component.articles.length -1].title).toBe(newArticle.title);
   });
 
-  it('should run handleChange and change the article status', () => {
+  it('should run handleUpdate and change the article status', () => {
+    service.update = jasmine.createSpy().and.returnValue(of({ id: '1', title: 'New article', author: 'New author', isPublished: false }));
     const updatedArticle: Article = {
       id: component.articles[0].id,
       title: 'New article', author: 'New author',
@@ -65,10 +66,31 @@ describe('ListComponent', () => {
     expect(component.articles[0].isPublished).toBe(false);
   });
 
+  it('should run handleUpdate and catch an error', () => {
+    service.update = jasmine.createSpy().and.returnValue(throwError(() => new Error('Error updating article')));
+    spyOn(console, 'error');
+    const updatedArticle: Article = {
+      id: component.articles[0].id,
+      title: 'New article', author: 'New author',
+      isPublished: false
+    }
+    component.handleUpdate(updatedArticle);
+    expect(console.error).toHaveBeenCalled();
+  });
 
   it('should run handleDelete and delete the article', () => {
+    service.delete = jasmine.createSpy().and.returnValue(of(undefined));
     const articleId = component.articles[0].id;
     component.handleDelete(articleId);
     expect(component.articles.find(article => article.id === articleId)).toBeUndefined();
   });
+
+  it('should run handleDelete and catch an error', () => {
+    service.delete = jasmine.createSpy().and.returnValue(throwError(() => new Error('Error deleting article')));
+    spyOn(console, 'error');
+    const articleId = '5';
+    component.handleDelete(articleId);
+    expect(console.error).toHaveBeenCalled();
+  });
+
 });

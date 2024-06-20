@@ -7,7 +7,8 @@ import { StorageService } from '../services/storage.service';
 describe('FullListComponent', () => {
   let component: FullListComponent;
   let fixture: ComponentFixture<FullListComponent>;
-  let service: MockDataService;
+  let storageService: StorageService;
+  let dataService: MockDataService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,7 +28,8 @@ describe('FullListComponent', () => {
 
     fixture = TestBed.createComponent(FullListComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(MockDataService);
+    dataService = TestBed.inject(MockDataService);
+    storageService = TestBed.inject(StorageService);
     fixture.detectChanges();
   });
 
@@ -37,10 +39,20 @@ describe('FullListComponent', () => {
 
 
   // White Box Testing
-  it('should run handleLoad and render the tasks', async () => {
-    const tasks =  await service.getTasksAsync();
+  it('should run handleLoad from storageService and render the tasks', async () => {
+    const mockTasks = [ { id: '1', title: 'Task 1', owner: 'Owner 1', isDone: false } ];
+    storageService.get = () => mockTasks
+    component.handleLoad();
+    expect(component.tasks).toEqual(mockTasks);
+  });
+
+  it('should run handleLoad from mock, when storageService is empty, and render the tasks', async () => {
+    const tasks =  await dataService.getTasksAsync();
+    storageService.get = () => [];
+    await component.handleLoad();
     expect(component.tasks).toEqual(tasks);
   });
+
 
   it('should run handleAdd and add a new task', () => {
     const newTask = { title: 'New task', owner: 'New owner' };

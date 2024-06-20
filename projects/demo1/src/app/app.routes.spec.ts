@@ -54,10 +54,15 @@ describe('MenuComponent', () => {
       tick();
       expect(linkElements[1]).toHaveClass('active');
     }));
-    it('should have select route about', fakeAsync(() => {
+    it('should have select route articles', fakeAsync(() => {
       linkElements[2].click();
       tick();
       expect(linkElements[2]).toHaveClass('active');
+    }));
+    it('should have select route about', fakeAsync(() => {
+      linkElements[3].click();
+      tick();
+      expect(linkElements[3]).toHaveClass('active');
     }));
   });
 });
