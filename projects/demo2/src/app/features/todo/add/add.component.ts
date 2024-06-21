@@ -1,12 +1,12 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  Output,
+  inject,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CreateTaskDTO } from '../../../core/models/task';
+import { TodoStateService } from '../../../core/services/todo.state.service';
 
 
 @Component({
@@ -32,11 +32,11 @@ import { CreateTaskDTO } from '../../../core/models/task';
 export class AddComponent {
   newTask: CreateTaskDTO = { title: '', owner: '' };
   @ViewChild('add', { static: true }) details!: ElementRef<HTMLDetailsElement>;
-  @Output() addEvent = new EventEmitter<CreateTaskDTO>();
+ stateSrv = inject(TodoStateService)
 
   handleAdd() {
     if (!this.newTask.title || !this.newTask.owner) return;
-    this.addEvent.next(this.newTask);
+    this.stateSrv.handleAdd(this.newTask);
     this.newTask = { title: '', owner: '' };
     this.details.nativeElement.open = false;
   }

@@ -12,5 +12,10 @@ export const routes: Routes = [
     path: 'articles',
     loadComponent: () => import('./features/articles/articles.component') ,
   },
+  {
+    title: 'Tareas',
+    path: 'todo',
+    loadComponent: () => import('./features/todo/todo.component') ,
+  },
   { path: '**', redirectTo: 'home' },
 ];

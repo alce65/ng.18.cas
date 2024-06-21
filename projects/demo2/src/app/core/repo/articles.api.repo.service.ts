@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { inject, Injectable } from '@angular/core';
-import { RepoRx } from './articles.repo';
+import { RepoRx } from './repo';
 import { Article, CreateArticleDTO, UpdateArticleDTO } from '../models/article';
 import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';

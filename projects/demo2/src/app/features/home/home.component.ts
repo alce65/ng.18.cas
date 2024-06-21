@@ -1,22 +1,32 @@
 import { Component, inject } from '@angular/core';
 import { StateService } from '../../core/services/state.service';
 import { AsyncPipe } from '@angular/common';
+import { SignalsComponent } from './signals/signals.component';
+import { TodoStateService } from '../../core/services/todo.state.service';
 
 @Component({
   selector: 'cas-home',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [SignalsComponent, AsyncPipe],
   template: `
     <h2>Inicio</h2>
 
-    @if((stateSrv.getState() | async)?.articles; as articles) {
+    @if((articlesStateSrv.getState() | async)?.articles; as articles) {
       <p>Artículos disponibles {{articles?.length }}</p>
     }
+    @if(todoStateSrv.getState(); as todoState){
+      <p>Tareas en la lista: {{  todoState().tasks().length}}</p>
+      <p>Tareas pendientes: {{ todoStateSrv.getPendingTasksNumber() }}</p>
+    }
+    
+    <hr>
+    <cas-signals />
   `,
   styles: ``,
 })
 export default class HomeComponent {
 
-  protected stateSrv = inject(StateService);
+  protected articlesStateSrv = inject(StateService);
+  protected todoStateSrv = inject(TodoStateService);
 
 }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AddComponent } from '../add/add.component';
 import { CardComponent } from '../card/card.component';
-import { CreateTaskDTO, Task } from '../../../core/models/task';
+import { TodoStateService } from '../../../core/services/todo.state.service';
 
 @Component({
   selector: 'cas-list',
@@ -9,16 +9,12 @@ import { CreateTaskDTO, Task } from '../../../core/models/task';
   imports: [AddComponent, CardComponent],
   template: `
     <h2>Lista en varios componentes</h2>
-    <cas-add (addEvent)="handleAdd($event)" />
+    <cas-add />
     <h3>Lista de tareas</h3>
     <ul>
-      @for (item of tasks; track item.id) {
+      @for (item of tasks(); track item.id) {
         <li>
-          <cas-card
-            [item]="item"
-            (deleteEvent)="handleDelete($event)"
-            (updateEvent)="handleUpdate($event)"
-          />
+          <cas-card [item]="item" />
         </li>
       }
     </ul>
@@ -34,27 +30,9 @@ import { CreateTaskDTO, Task } from '../../../core/models/task';
     }
   `,
 })
-export class ListComponent implements OnInit {
-  tasks: Task[] = [];
+export class ListComponent {
 
-
-  ngOnInit(): void {
-    this.handleLoad();
-  }
-
-  handleLoad() {
-    //
-  }
-
-  handleAdd(newTask: CreateTaskDTO) {
-    console.log(newTask)
-  }
-
-  handleDelete(id: string) {
-    console.log(id)
-  }
-
-  handleUpdate(updatedTask: Task) {
-    console.log(updatedTask)
-  }
+  stateSrv = inject(TodoStateService)
+  state = this.stateSrv.getState()
+  tasks = this.state().tasks 
 }

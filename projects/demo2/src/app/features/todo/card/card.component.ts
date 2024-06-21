@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Task } from '../../../core/models/task';
+import { TodoStateService } from '../../../core/services/todo.state.service';
 
 @Component({
   selector: 'cas-card',
   standalone: true,
   imports: [],
   template: `
-    <input type="checkbox" [checked]="item.isDone" (change)="handleChange()" />
-    <span [title]="item.id"> {{ item.title }} - {{ item.owner }} </span>
+    <input type="checkbox" [checked]="item()?.isDone" (change)="handleChange()" />
+    <span [title]="item()?.id"> {{ item()?.title }} - {{ item()?.owner }} </span>
     <button title="borrar" (click)="handleDelete()">🗑️</button>
   `,
   styles: `
@@ -19,18 +20,18 @@ import { Task } from '../../../core/models/task';
   `,
 })
 export class CardComponent {
-  @Input() item!: Task;
-  @Output() deleteEvent = new EventEmitter<string>();
-  @Output() updateEvent = new EventEmitter<Task>();
+  item  = input<Task>();
+  stateSvv = inject(TodoStateService);
+
 
   handleChange() {
-    this.updateEvent.next({
-      ...this.item,
-      isDone: !this.item.isDone,
+    this.stateSvv.handleUpdate({
+      ...this.item()!,
+      isDone: !this.item()!.isDone,
     });
   }
 
   handleDelete() {
-    this.deleteEvent.next(this.item.id);
+    this.stateSvv.handleDelete(this.item()!.id);
   }
 }
