@@ -1,5 +1,8 @@
 # Ng18
 
+Código _"in situ"_ del curso de Angular 18 de CAS Training (Junio 2024).
+Repositorio público en [Github](https://github.com/alce65/ng.18.cas)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.3.
 
 ## Development server
